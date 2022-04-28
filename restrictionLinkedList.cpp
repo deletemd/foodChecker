@@ -9,7 +9,7 @@ restrictionNode* restrictionLinkedList::getHead(){
 }
 
 void restrictionLinkedList::setHead(restrictionNode* restrictionNode){
-  // head;
+   head = restrictionNode;
 }
 
 restrictionNode* restrictionLinkedList::getData(){
@@ -292,3 +292,14 @@ void restrictionLinkedList::search(string _query){
       data = data->getNextNode();
     }
 }
+
+void restrictionLinkedList::removeRestriction(restrictionNode *node){
+  if(node !=nullptr)
+  {
+      restrictionNode* target = node->getNextNode();
+  node->setNextNode(target->getNextNode());
+  }
+  length --;
+
+}
+  

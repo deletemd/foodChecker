@@ -21,7 +21,7 @@ void setData(restrictionNode * newNode);
   restrictionNode returnNextNode();
 void addRestriction(restrictionNode* node);
   void addRestriction(string _name,ingredientLinkedList *ingredients);
-  void removeRestriction();
+  void removeRestriction(restrictionNode*node);
   void printInformation();
   void search(string _query);
   restrictionLinkedList();

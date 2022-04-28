@@ -9,7 +9,8 @@ mealNode* mealLinkedList::getHead(){
 }
 
 void mealLinkedList::setHead(mealNode* mealNode){
-  // head;
+ 
+   head = mealNode;
 }
 
 mealNode* mealLinkedList::getData(){
@@ -292,3 +293,15 @@ void mealLinkedList::search(string _query){
       data = data->getNextNode();
     }
 }
+
+
+void mealLinkedList::removeMeal(mealNode *node){
+  if(node !=nullptr)
+  {
+      mealNode* target = node->getNextNode();
+  node->setNextNode(target->getNextNode());
+  }
+  length --;
+
+}
+  

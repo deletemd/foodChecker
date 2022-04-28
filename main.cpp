@@ -11,6 +11,10 @@ dinerLinkedList dinerList;
 restrictionLinkedList restrictionList;
 mealLinkedList mealList;
 
+
+void printInstructions(){
+  cout<<"This program was developed to help keep records of food plans for multiple users. This could be used in a homeless shelter, food shelter, or even school cafeterias and families. " <<endl <<endl<<"The program allows users to add diners, create and assign restrictions for them, and then create and assign meals." <<endl <<endl<<"Once you have assinged all of this, you can use the see all diners option to see if your plan needs any adjusting";
+}
 void addNewMeal(){
    string newName;
   float calories;
@@ -65,10 +69,10 @@ currentMenuOption = 0;
 
 void setPresetData(){
   dinerList.addDiner("Deladem",22,65.7,170,'m');
-  dinerList.addDiner("alex",42,75.7,170,'m');
-    dinerList.addDiner("zed",62,70.7,170,'m');
-  dinerList.addDiner("robert",82,69.7,170,'m');
-    dinerList.addDiner("jsaon",24,55.7,170,'m');
+  dinerList.addDiner("Alex",42,75.7,170,'f');
+    dinerList.addDiner("Zed",62,70.7,170,'m');
+  dinerList.addDiner("Roberta",82,69.7,170,'f');
+    dinerList.addDiner("Jason",24,55.7,170,'m');
   dinerList.addDiner("John",32,85.7,170,'m');
   
   ingredientLinkedList *_ingredients = new ingredientLinkedList();
@@ -149,7 +153,7 @@ void addNewDiner(){
   int newAge;
   float newHeight;
   float newWeight;
-  char newSex;
+  char newSex= 'z';
   char option ='z';
   bool userExists = false;
   cout << endl << endl << "ADD NEW DINER:" <<endl;
@@ -175,8 +179,10 @@ void addNewDiner(){
    cin >> newHeight;
   cout <<"Input new diner's weight in kilograms"<<endl;
    cin >> newWeight;
-     cout <<"Input new diner's sex in kilograms"<<endl;
+    while (newSex != 'm' && newSex != 'f'){
+     cout <<"Input new diner's sex(m/f) "<<endl;
    cin >> newSex;
+      }
   dinerList.addDiner(newName,newAge,newWeight,newHeight,newSex);
   while (option != 'y' && option != 'n'){
  cout <<endl<<"Would you like to add a reststriction for " << newName<<" ? (y/n): "; 
@@ -336,6 +342,12 @@ void menu(){
   cout <<"Please input a menu option: ";
   cin >> currentMenuOption;
 
+  if(currentMenuOption == 1)
+  {
+      cout<<endl;
+    printInstructions();
+    cout<<endl;
+  }
   if(currentMenuOption == 2)
   {
       cout<<endl;
@@ -368,8 +380,8 @@ void menu(){
 int id = userChoice;        
          
 userChoice = 0;
-       while(userChoice <1 || userChoice> 5){
-      cout<< endl<< "Would you like to edit their: "<<endl<<"Name(1)"<<endl<<"Age(2)"<<endl<<"Height(3)"<<endl<<"Weight(4)"<<endl<<"Restrictions(5)";
+       while(userChoice <1 || userChoice> 6){
+      cout<< endl<< "Would you like to edit their: "<<endl<<"Name(1)"<<endl<<"Age(2)"<<endl<<"Height(3)"<<endl<<"Weight(4)"<<endl<<"Restrictions(5)"<<endl<<"Meals(6)";
       cin >>userChoice;
       }
 
@@ -438,9 +450,40 @@ cin>> newWeight;
 
          
   if(!restrictionExists){
-   cout<<currentDiner;
     
   currentDiner->getRestrictions()->addRestriction(restrictionList.getData());
+    }
+      }
+
+       else if(userChoice ==6){
+        mealList.printInformation(); 
+
+         int userChoice=0;
+      while(userChoice <1 || userChoice> mealList.getLength()){
+         cout <<endl <<"Which meal would you like to add?"<<endl;
+      cin >>userChoice;
+      }
+
+         mealList.getData(userChoice);
+
+  bool mealExists = false;
+  if(currentDiner->getMeals()->getLength() >0)
+  {
+    currentDiner->getMeals()->search(mealList.getData()->getData()->getName());
+
+    if(currentDiner->getMeals()->getData() != nullptr)
+    {
+      cout << "This restriction already exists"<< endl <<endl ;
+      mealExists = true;
+    }
+    
+         }
+
+         
+  if(!mealExists){
+   cout<<currentDiner;
+    
+  currentDiner->getMeals()->addMeal(mealList.getData());
     }
       }
       }
@@ -571,17 +614,17 @@ userChoice = 0;
     {
 
       int userChoice=0;
-      while(userChoice <1 || userChoice> dinerList.getLength()){
-         cout <<endl <<"Which user would you like to remove?"<<endl;
+      while(userChoice <1 || userChoice> restrictionList.getLength()){
+         cout <<endl <<"Which restriction would you like to remove?"<<endl;
       cin >>userChoice;
       }
       if(userChoice == 1){
-        dinerList.removeDiner(nullptr);
-        dinerList.setHead(dinerList.getHead()->getNextNode());
+        restrictionList.removeRestriction(nullptr);
+        restrictionList.setHead(restrictionList.getHead()->getNextNode());
       }
       else{
-             dinerNode* node = dinerList.getData(userChoice-1);
-  dinerList.removeDiner(node);
+             restrictionNode* node = restrictionList.getData(userChoice-1);
+  restrictionList.removeRestriction(node);
       }
     
       }
@@ -624,8 +667,8 @@ userChoice = 0;
 int id = userChoice;        
          
 userChoice = 0;
-       while(userChoice <1 || userChoice> 3){
-      cout<< endl<< "Would you like to Add(1) or Remove(2) an ingredient? If not (3)";
+       while(userChoice <1 || userChoice> 4){
+      cout<< endl<< "Would you like to Add(1) or Remove(2) an ingredient, or change the total Calories for this meal(3)? If not (4)";
       cin >>userChoice;
       }
 
@@ -657,7 +700,14 @@ userChoice = 0;
          
            
          }
-       
+
+               else if(userChoice ==3 ){
+                 float newCalories;
+                  cout <<endl <<"How many calories should be in this meal?"<<endl;
+      cin >>newCalories;
+ mealList.getData(id)->getData()->setCalories(newCalories);
+                 
+                 }
       }
       
     if(choice == 'v')
@@ -675,16 +725,16 @@ userChoice = 0;
 
       int userChoice=0;
       while(userChoice <1 || userChoice> mealList.getLength()){
-         cout <<endl <<"Which user would you like to remove?"<<endl;
+         cout <<endl <<"Which meal would you like to remove?"<<endl;
       cin >>userChoice;
       }
       if(userChoice == 1){
-        dinerList.removeDiner(nullptr);
-        dinerList.setHead(dinerList.getHead()->getNextNode());
+        mealList.removeMeal(nullptr);
+        mealList.setHead(mealList.getHead()->getNextNode());
       }
       else{
-             dinerNode* node = dinerList.getData(userChoice-1);
-  dinerList.removeDiner(node);
+             mealNode* node = mealList.getData(userChoice-1);
+  mealList.removeMeal(node);
       }
     
       }

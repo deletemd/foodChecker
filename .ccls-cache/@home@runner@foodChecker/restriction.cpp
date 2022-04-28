@@ -13,8 +13,20 @@ using namespace std;
   ingredientLinkedList *Restriction::getIngredients(){
     return ingredients;
   }
-  void removeIngredients();
- 
+void restric::removeDiner(dinerNode *node){
+  if(node !=nullptr)
+  {
+      dinerNode* target = node->getNextNode();
+  node->setNextNode(target->getNextNode());
+  }
+  length --;
+
+}
+  dinerLinkedList::dinerLinkedList(){
+    length = 0;
+    data = nullptr;
+    head = nullptr;
+  } 
 
 
   Restriction::Restriction(string _name):name(_name){

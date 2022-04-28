@@ -13,7 +13,6 @@ using namespace std;
   ingredientLinkedList *Restriction::getIngredients(){
     return ingredients;
   }
-  void removeIngredients();
  
 
 
